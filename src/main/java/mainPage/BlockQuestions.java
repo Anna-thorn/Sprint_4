@@ -6,8 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.JavascriptExecutor;
 
 public class BlockQuestions {
-    // локаторы
-    // блок вопросов
+    /* блок вопросов
     public By questions = By.className("Home_FAQ__3uVm4");
     // вопросы 1-8
     public By question0 = By.id("accordion__heading-0");
@@ -26,13 +25,25 @@ public class BlockQuestions {
     public By answer4 = By.id("accordion__panel-4");
     public By answer5 = By.id("accordion__panel-5");
     public By answer6 = By.id("accordion__panel-6");
-    public By answer7 = By.id("accordion__panel-7");
+    public By answer7 = By.id("accordion__panel-7"); - удалено */
+
+    // новое - шаблоны для вопросов и ответов по индексу
+    private static final String QUESTION_LOCATOR_TEMPLATE = "accordion__heading-%d";
+    private static final String ANSWER_LOCATOR_TEMPLATE = "accordion__panel-%d";
 
     // методы
-    // прокручивание до блока с вопросами
+
+    /* прокручивание до блока с вопросами
     public void scrollToBlockQuestions(WebDriver driver) {
         WebElement element = driver.findElement(questions);
         ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", element);
+    } - удалено */
+
+    // новое - метод для прокрутки до вопроса по индексу
+    public void scrollToQuestion(WebDriver driver, int index) {
+        By questionLocator = getQuestionLocator(index);
+        WebElement questionElement = driver.findElement(questionLocator);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView();", questionElement);
     }
     // клик на вопрос
     public void clickQuestion(WebDriver driver, int index) {
@@ -52,32 +63,12 @@ public class BlockQuestions {
         WebElement answerElement = driver.findElement(answerLocator);
         return answerElement.getText();
     }
-    // вспомогательный метод для получения локатора вопроса по индексу
+    // изменен - вспомогательный метод для получения локатора вопроса по индексу
     private By getQuestionLocator(int index) {
-        switch (index) {
-            case 0: return question0;
-            case 1: return question1;
-            case 2: return question2;
-            case 3: return question3;
-            case 4: return question4;
-            case 5: return question5;
-            case 6: return question6;
-            case 7: return question7;
-            default: throw new IllegalArgumentException("Неверный индекс вопроса: " + index);
-        }
+        return By.id(String.format(QUESTION_LOCATOR_TEMPLATE, index));
     }
-    // вспомогательный метод для получения локатора ответа по индексу
+    // изменен - вспомогательный метод для получения локатора ответа по индексу
     private By getAnswerLocator(int index) {
-        switch (index) {
-            case 0: return answer0;
-            case 1: return answer1;
-            case 2: return answer2;
-            case 3: return answer3;
-            case 4: return answer4;
-            case 5: return answer5;
-            case 6: return answer6;
-            case 7: return answer7;
-            default: throw new IllegalArgumentException("Неверный индекс ответа: " + index);
-        }
+        return By.id(String.format(ANSWER_LOCATOR_TEMPLATE, index));
     }
 }
