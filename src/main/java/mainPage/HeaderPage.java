@@ -2,6 +2,8 @@ package mainPage;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.JavascriptExecutor;
 
 public class HeaderPage {
     private final WebDriver driver;
@@ -16,14 +18,20 @@ public class HeaderPage {
 
     // новое - кнопка "Заказать" в середине страницы
     private final By orderButtonMiddle = By.xpath("//button[contains(@class, 'Button_Button__ra12g') and contains(@class, 'Button_Middle__1CSJM') and text()='Заказать']");
+    // логотип Самокат
+    public By scooterLogo = By.xpath("//img[@alt='Scooter']");
+    // логотип Яндекс
+    public By yandexLogo = By.xpath("//img[@alt='Yandex']");
 
     // методы
     // клик по кнопке "Заказать" в верхней части страницы
     public void clickOrderButtonTop() {
         driver.findElement(orderButtonTop).click();
     }
-    // новое - клик по кнопке "Заказать" в середине страницы
+    // новое - прокручивание и клик по кнопке "Заказать" в середине страницы
     public void clickOrderButtonMiddle() {
-        driver.findElement(orderButtonMiddle).click();
+        WebElement element = driver.findElement(orderButtonMiddle);
+        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", element);
+        element.click();
     }
 }
